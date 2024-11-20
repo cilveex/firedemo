@@ -45,10 +45,14 @@
   <button id="googleSignInBtn">Sign in with Google</button>
 
   <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.x/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.x/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
 
   <script>
+    // Import Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
     // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyA8lWhjAcSXIDkeP9-uGz90RQiRv3X2UXQ",
@@ -61,13 +65,13 @@
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
     // Sign-In Functionality
     document.getElementById("googleSignInBtn").addEventListener("click", () => {
-      firebase.auth().signInWithPopup(provider)
+      signInWithPopup(auth, provider)
         .then((result) => {
           const user = result.user;
           alert(`Hello, ${user.displayName}!`);
