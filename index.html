@@ -12,12 +12,10 @@
       margin: 0;
       padding: 0;
     }
-
     h1 {
       color: #333;
       margin-top: 50px;
     }
-
     button {
       background-color: #4285F4;
       color: white;
@@ -29,11 +27,9 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       margin-top: 20px;
     }
-
     button:hover {
       background-color: #357AE8;
     }
-
     button:active {
       background-color: #3367D6;
       box-shadow: none;
@@ -44,11 +40,12 @@
   <h1>Google Sign-In Demo</h1>
   <button id="googleSignInBtn">Sign in with Google</button>
 
-  <!-- Firebase CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.16.0/firebase-auth-compat.js"></script>
+  <!-- Firebase App and Auth SDK -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
-  <script>
     // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyA8lWhjAcSXIDkeP9-uGz90RQiRv3X2UXQ",
@@ -61,21 +58,20 @@
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
 
     // Sign-In Functionality
     document.getElementById("googleSignInBtn").addEventListener("click", () => {
-      auth.signInWithPopup(provider)
+      signInWithPopup(auth, provider)
         .then((result) => {
           const user = result.user;
           alert(`Hello, ${user.displayName}!`);
           console.log("User signed in:", user);
         })
         .catch((error) => {
-          console.error("Error signing in:", error.message);
-          alert("Error signing in. Check the console for details.");
+          console.error("Error signing in:", error);
         });
     });
   </script>
